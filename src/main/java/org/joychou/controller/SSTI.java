@@ -34,6 +34,19 @@ public class SSTI {
         context.put("phone", "555-1337");
 
         StringWriter swOut = new StringWriter();
-        Velocity.evaluate(context, swOut, "test", template);
+        // Velocity.evaluate(context, swOut, "test", template); // Removed due to security concerns
+        if (!template.matches("^[\\w\\s]+$")) {
+            throw new IllegalArgumentException("Invalid template content.");
+        }
+        Template safeTemplate = loadSafeTemplate("safe_template.vm");
+        safeTemplate.merge(context, swOut);
     }
+}
+import org.apache.velocity.Template;
+import org.apache.velocity.app.VelocityEngine;
+
+private Template loadSafeTemplate(String templateName) {
+    VelocityEngine ve = new VelocityEngine();
+    ve.init();
+    return ve.getTemplate("resources/templates/" + templateName);
 }
