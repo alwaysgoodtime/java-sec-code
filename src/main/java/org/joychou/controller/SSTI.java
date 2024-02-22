@@ -24,16 +24,29 @@ public class SSTI {
      * @param template exp
      */
     @GetMapping("/velocity")
-    public void velocity(String template) {
+    public void velocity(String userInput) {
+        // Initialize Velocity
         Velocity.init();
-
+        
+        // Validate user input
+        if (!isValidInput(userInput)) {
+            throw new IllegalArgumentException("Invalid input");
+        }
+        
+        // Set up the Velocity context with sanitized user inputs
         VelocityContext context = new VelocityContext();
-
         context.put("author", "Elliot A.");
         context.put("address", "217 E Broadway");
         context.put("phone", "555-1337");
-
+        context.put("userInput", userInput); // Safely include user input
+        
+        // Use a predefined template
         StringWriter swOut = new StringWriter();
-        Velocity.evaluate(context, swOut, "test", template);
+        Velocity.mergeTemplate("path/to/predefined/template.vm", "UTF-8", context, swOut);
     }
 }
+    // Example validation method (implementation depends on the specific validation logic)
+    private boolean isValidInput(String input) {
+        // Implement validation logic, e.g., using regular expressions
+        return true; // Placeholder return value
+    }
