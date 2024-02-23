@@ -27,3 +27,4 @@ public class CRLFInjection {
         response.addCookie(cookie);
     }
 }
+import org.joychou.util.InputSanitizer;
