@@ -23,8 +23,11 @@ public class SpEL {
      */
     @RequestMapping("/spel/vuln1")
     public String spel_vuln1(String value) {
-        ExpressionParser parser = new SpelExpressionParser();
-        return parser.parseExpression(value).getValue().toString();
+        SpelExpressionParser parser = new SpelExpressionParser();
+        SimpleEvaluationContext context = SimpleEvaluationContext.forReadOnlyDataBinding().build();
+        Expression expression = parser.parseExpression(value);
+        Object x = expression.getValue(context);
+        return x.toString();
     }
 
     /**
@@ -34,11 +37,11 @@ public class SpEL {
      */
     @RequestMapping("spel/vuln2")
     public String spel_vuln2(String value) {
-        StandardEvaluationContext context = new StandardEvaluationContext();
+        SimpleEvaluationContext context = SimpleEvaluationContext.forReadOnlyDataBinding().build();
         SpelExpressionParser parser = new SpelExpressionParser();
         Expression expression = parser.parseExpression(value, new TemplateParserContext());
-        Object x = expression.getValue(context);    // trigger vulnerability point
-        return x.toString();   // response
+        Object x = expression.getValue(context);
+        return x.toString();
     }
 
     /**
