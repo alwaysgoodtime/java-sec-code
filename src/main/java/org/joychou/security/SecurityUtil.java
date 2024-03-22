@@ -14,11 +14,15 @@ import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 public class SecurityUtil {
 
     private static final Pattern FILTER_PATTERN = Pattern.compile("^[a-zA-Z0-9_/\\.-]+$");
     private final static Logger logger = LoggerFactory.getLogger(SecurityUtil.class);
+    private final static String BASE_DIRECTORY_PATH = "/var/www/html"; // Base directory path
 
 
     /**
@@ -189,7 +193,8 @@ public class SecurityUtil {
             }
         }
 
-        if (temp.contains("..") || temp.charAt(0) == '/') {
+        String normalizedPath = Paths.get(temp).normalize().toString();
+        if (!normalizedPath.startsWith(BASE_DIRECTORY_PATH)) {
             return null;
         }
 
