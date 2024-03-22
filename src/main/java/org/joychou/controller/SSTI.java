@@ -10,6 +10,9 @@ import org.apache.velocity.app.Velocity;
 
 import java.io.StringWriter;
 
+import java.util.regex.Pattern;
+import java.util.regex.Matcher;
+
 @RestController
 @RequestMapping("/ssti")
 public class SSTI {
@@ -25,6 +28,11 @@ public class SSTI {
      */
     @GetMapping("/velocity")
     public void velocity(String template) {
+        Matcher matcher = Pattern.compile("\\$\\{.*\\}").matcher(template);
+        if (matcher.find()) {
+            throw new IllegalArgumentException("Invalid template input.");
+        }
+
         Velocity.init();
 
         VelocityContext context = new VelocityContext();
