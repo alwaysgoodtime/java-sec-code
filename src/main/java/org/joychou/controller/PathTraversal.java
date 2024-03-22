@@ -28,11 +28,12 @@ public class PathTraversal {
 
     @GetMapping("/path_traversal/sec")
     public String getImageSec(String filepath) throws IOException {
-        if (SecurityUtil.pathFilter(filepath) == null) {
+        String filteredPath = SecurityUtil.pathFilter(filepath);
+        if (filteredPath == null) {
             logger.info("Illegal file path: " + filepath);
             return "Bad boy. Illegal file path.";
         }
-        return getImgBase64(filepath);
+        return getImgBase64(filteredPath);
     }
 
     private String getImgBase64(String imgFile) throws IOException {
