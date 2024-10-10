@@ -1,6 +1,7 @@
 package org.joychou.controller;
 
 
+import io.github.pixee.security.ObjectInputFilters;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.crypto.AesCipherService;
 import org.joychou.config.Constants;
@@ -35,6 +36,7 @@ public class Shiro {
             byte[] aesDecrypt = acs.decrypt(b64DecodeRememberMe, KEYS).getBytes();
             ByteArrayInputStream bytes = new ByteArrayInputStream(aesDecrypt);
             ObjectInputStream in = new ObjectInputStream(bytes);
+            ObjectInputFilters.enableObjectFilterIfUnprotected(in);
             in.readObject();
             in.close();
         } catch (Exception e){

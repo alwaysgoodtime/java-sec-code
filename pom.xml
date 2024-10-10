@@ -12,7 +12,8 @@
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source> <!-- mvn clean package-->
         <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
+  <versions.java-security-toolkit>1.2.0</versions.java-security-toolkit>
+ </properties>
 
 
     <parent>
@@ -403,7 +404,11 @@
             <artifactId>QLExpress</artifactId>
             <version>3.3.1</version>
         </dependency>
-    </dependencies>
+  <dependency>
+   <groupId>io.github.pixee</groupId>
+   <artifactId>java-security-toolkit</artifactId>
+  </dependency>
+ </dependencies>
 
     <dependencyManagement>
         <dependencies>
@@ -414,7 +419,12 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
-        </dependencies>
+   <dependency>
+    <groupId>io.github.pixee</groupId>
+    <artifactId>java-security-toolkit</artifactId>
+    <version>${versions.java-security-toolkit}</version>
+   </dependency>
+  </dependencies>
     </dependencyManagement>
 
     <!-- jar -->

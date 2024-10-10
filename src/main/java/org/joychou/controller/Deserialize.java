@@ -1,6 +1,7 @@
 package org.joychou.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.pixee.security.ObjectInputFilters;
 import org.joychou.config.Constants;
 import org.joychou.security.AntObjectInputStream;
 import org.slf4j.Logger;
@@ -47,6 +48,7 @@ public class Deserialize {
 
         ByteArrayInputStream bytes = new ByteArrayInputStream(decoded);
         ObjectInputStream in = new ObjectInputStream(bytes);
+        ObjectInputFilters.enableObjectFilterIfUnprotected(in);
         in.readObject();
         in.close();
 
