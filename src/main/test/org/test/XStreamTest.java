@@ -3,6 +3,7 @@ package org.test;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.security.AnyTypePermission;
+import io.github.pixee.security.UnwantedTypes;
 import org.joychou.dao.User;
 import org.junit.Test;
 
@@ -52,6 +53,9 @@ public class XStreamTest {
     public void vuln01() {
         System.out.println(poc_xml);
         XStream xstream = new XStream();
+        UnwantedTypes.dangerousClassNameTokens().forEach( token -> {
+            xstream.denyTypesByWildcard(new String[] { "*" + token + "*" });
+        });
         xstream.addPermission(AnyTypePermission.ANY); // Insecure configuration
         xstream.fromXML(poc_xml); // Deserialize
     }
@@ -64,6 +68,9 @@ public class XStreamTest {
     public void sec01() {
         System.out.println(poc_xml);
         XStream xstream = new XStream();
+        UnwantedTypes.dangerousClassNameTokens().forEach( token -> {
+            xstream.denyTypesByWildcard(new String[] { "*" + token + "*" });
+        });
         xstream.fromXML(poc_xml); // Deserialize
     }
 

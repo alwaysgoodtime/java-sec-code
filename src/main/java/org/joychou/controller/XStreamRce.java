@@ -3,6 +3,7 @@ package org.joychou.controller;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 import com.thoughtworks.xstream.security.AnyTypePermission;
+import io.github.pixee.security.UnwantedTypes;
 import org.joychou.dao.User;
 import org.joychou.util.WebUtils;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,9 @@ public class XStreamRce {
     public String parseXml(HttpServletRequest request) throws Exception {
         String xml = WebUtils.getRequestBody(request);
         XStream xstream = new XStream(new DomDriver());
+        UnwantedTypes.dangerousClassNameTokens().forEach( token -> {
+            xstream.denyTypesByWildcard(new String[] { "*" + token + "*" });
+        });
         xstream.addPermission(AnyTypePermission.ANY); // This will cause all XStream versions to be affected.
         xstream.fromXML(xml);
         return "xstream";
