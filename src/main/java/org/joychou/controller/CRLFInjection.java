@@ -1,5 +1,6 @@
 package org.joychou.controller;
 
+import io.github.pixee.security.Newlines;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -21,7 +22,7 @@ public class CRLFInjection {
     @ResponseBody
     public void crlf(HttpServletRequest request, HttpServletResponse response) {
         response.addHeader("test1", request.getParameter("test1"));
-        response.setHeader("test2", request.getParameter("test2"));
+        response.setHeader("test2", Newlines.stripAll(request.getParameter("test2")));
         String author = request.getParameter("test3");
         Cookie cookie = new Cookie("test3", author);
         response.addCookie(cookie);
