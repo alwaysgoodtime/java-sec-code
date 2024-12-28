@@ -1,5 +1,6 @@
 package org.joychou.controller;
 
+import static io.github.pixee.security.jakarta.PathValidator.validateDispatcherPath;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -65,7 +66,7 @@ public class URLRedirect {
     @ResponseBody
     public static void forward(HttpServletRequest request, HttpServletResponse response) {
         String url = request.getParameter("url");
-        RequestDispatcher rd = request.getRequestDispatcher(url);
+        RequestDispatcher rd = request.getRequestDispatcher(validateDispatcherPath(url));
         try {
             rd.forward(request, response);
         } catch (Exception e) {
