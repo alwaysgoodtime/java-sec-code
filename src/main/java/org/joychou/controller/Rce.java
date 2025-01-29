@@ -1,6 +1,7 @@
 package org.joychou.controller;
 
 import groovy.lang.GroovyShell;
+import io.github.pixee.security.SystemCommand;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +34,7 @@ public class Rce {
         StringBuilder sb = new StringBuilder();
 
         try {
-            Process p = run.exec(cmd);
+            Process p = SystemCommand.runCommand(run, cmd);
             BufferedInputStream in = new BufferedInputStream(p.getInputStream());
             BufferedReader inBr = new BufferedReader(new InputStreamReader(in));
             String tmpStr;
