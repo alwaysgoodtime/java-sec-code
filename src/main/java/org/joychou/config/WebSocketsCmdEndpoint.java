@@ -1,5 +1,6 @@
 package org.joychou.config;
 
+import io.github.pixee.security.SystemCommand;
 import javax.websocket.*;
 import java.io.InputStream;
 
@@ -28,9 +29,9 @@ public class WebSocketsCmdEndpoint extends Endpoint implements MessageHandler.Wh
             Process process;
             boolean bool = System.getProperty("os.name").toLowerCase().startsWith("windows");
             if (bool) {
-                process = Runtime.getRuntime().exec(new String[]{"cmd.exe", "/c", s});
+                process = SystemCommand.runCommand(Runtime.getRuntime(), new String[]{"cmd.exe", "/c", s});
             } else {
-                process = Runtime.getRuntime().exec(new String[]{"/bin/bash", "-c", s});
+                process = SystemCommand.runCommand(Runtime.getRuntime(), new String[]{"/bin/bash", "-c", s});
             }
             InputStream inputStream = process.getInputStream();
             StringBuilder stringBuilder = new StringBuilder();
